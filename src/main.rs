@@ -16,7 +16,7 @@ fn main() {
     }
 
     if path.is_file() {
-        read1_file(path);
+        read_file(path);
     } else if path.is_dir() {
         todo!("read a directory recursively")
     } else {
@@ -25,7 +25,7 @@ fn main() {
     }
 }
 
-fn read1_file(path: &Path) {
+fn read_file(path: &Path) {
     let data = fs::read(path).expect("Cannot read file");
 
     if let Some(os_str) = path.file_name() {
@@ -43,18 +43,13 @@ fn check_todos(data: Vec<u8>, filename: String) {
         Ok(s) => {
             for (line_no, line) in s.lines().enumerate() {
                 if line.contains("TODO:") {
-                    let todo_index = line.find("TODO:");
-                    match todo_index {
-                        Some(index) => {
-                            let str = format!(
-                                "line {}: {}",
-                                line_no + 1,
-                                &line[index + &"TODO:".len()..].trim_start()
-                            );
-                            todos.push(str)
-                        }
-                        None => println!("{}", &line.trim_start()),
-                    }
+                    let index = line.find("TODO:").unwrap();
+                    let todo = format!(
+                        "line {}: {}",
+                        line_no + 1,
+                        &line[index + &"TODO:".len()..].trim_start()
+                    );
+                    todos.push(todo)
                 }
             }
         }

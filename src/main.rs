@@ -27,14 +27,13 @@ fn main() {
 
 fn read_file(path: &Path) {
     let data = fs::read(path).expect("Cannot read file");
-
-    if let Some(os_str) = path.file_name() {
-        let filename = os_str
-            .to_str()
-            .map(|s| s.to_string())
-            .expect("UNKNOWN FILE");
-        check_todos(data, filename);
-    }
+    let filename = path
+        .file_name()
+        .unwrap()
+        .to_str()
+        .map(|s| s.to_string())
+        .expect("UNKNOWN FILE");
+    check_todos(data, filename);
 }
 
 fn check_todos(data: Vec<u8>, filename: String) {

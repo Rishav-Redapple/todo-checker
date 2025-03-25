@@ -27,12 +27,7 @@ fn main() {
 
 fn read_file(path: &Path) {
     let data = fs::read(path).expect("Cannot read file");
-    let filename = path
-        .file_name()
-        .unwrap()
-        .to_str()
-        .map(|s| s.to_string())
-        .expect("UNKNOWN FILE");
+    let filename = path.file_name().unwrap().to_str().unwrap().to_string();
     check_todos(data, filename);
 }
 
